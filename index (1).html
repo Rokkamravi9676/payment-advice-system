@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rokkam Ravi — DevOps Engineer</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --accent: #00ff88;
+    --accent2: #0088ff;
+    --accent3: #ff6b35;
+    --text: #e8e8f0;
+    --muted: #7b7b90;
+    --border: rgba(255,255,255,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Grid bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Courier New', monospace;
+    font-size: 13px; font-weight: 700;
+    color: var(--accent); letter-spacing: 3px;
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--muted);
+    text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+    position: relative; overflow: hidden; z-index: 1;
+  }
+  .hero-glow1 {
+    position: absolute; width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,136,0.07) 0%, transparent 65%);
+    right: -150px; top: 50%; transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,136,255,0.06) 0%, transparent 65%);
+    left: -80px; bottom: -80px;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 32px;
+    padding: 8px 18px;
+    border: 1px solid rgba(0,255,136,0.25);
+    border-radius: 2px;
+    background: rgba(0,255,136,0.05);
+  }
+  .dot {
+    width: 7px; height: 7px;
+    background: var(--accent); border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero-name {
+    font-size: clamp(56px, 9vw, 110px);
+    font-weight: 800; line-height: 0.92;
+    letter-spacing: -4px; margin-bottom: 28px;
+  }
+  .name-white { display: block; color: var(--text); }
+  .name-green {
+    display: block;
+    background: linear-gradient(130deg, #00ff88, #00ccff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-role {
+    font-family: 'Courier New', monospace;
+    font-size: 15px; color: var(--accent);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-desc {
+    font-size: 17px; color: var(--muted);
+    line-height: 1.75; max-width: 560px;
+    margin-bottom: 48px; font-weight: 400;
+  }
+
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-g {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    background: var(--accent); color: #000;
+    font-family: 'Courier New', monospace;
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-g:hover { background: #00ffaa; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,136,0.3); }
+  .btn-o {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    border: 1px solid var(--border);
+    color: var(--text); background: var(--surface);
+    font-family: 'Courier New', monospace;
+    font-size: 12px; letter-spacing: 1px;
+    text-decoration: none; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .btn-o:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* STATS */
+  .stats {
+    position: relative; z-index: 1;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 60px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .stat {
+    padding: 0 40px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-size: 48px; font-weight: 800;
+    color: var(--accent); line-height: 1;
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-lbl {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; padding: 90px 60px; }
+  .sec-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; color: var(--accent);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 12px; display: block;
+  }
+  h2 {
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 800; letter-spacing: -2px;
+    line-height: 1.05; margin-bottom: 14px;
+  }
+  .sec-sub {
+    color: var(--muted); font-size: 16px;
+    max-width: 480px; line-height: 1.65;
+    margin-bottom: 56px;
+  }
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin-bottom: 56px; opacity: 0.2;
+  }
+
+  /* SKILLS */
+  .skills-bg { background: var(--surface); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2px;
+  }
+  .skill-card {
+    background: var(--bg);
+    padding: 30px 28px;
+    transition: all 0.25s;
+    border: 1px solid transparent;
+  }
+  .skill-card:hover {
+    border-color: rgba(0,255,136,0.15);
+    transform: translateY(-3px);
+    background: #0d0d14;
+  }
+  .skill-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .skill-name { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .skill-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .skill-bar { margin-top: 16px; height: 2px; background: var(--surface2); border-radius: 1px; overflow: hidden; }
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 1px;
+    animation: grow 1.5s ease forwards;
+    transform-origin: left; transform: scaleX(0);
+  }
+  @keyframes grow { to { transform: scaleX(1); } }
+
+  /* PROJECT */
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .project-head {
+    padding: 36px 44px;
+    background: linear-gradient(135deg, rgba(0,255,136,0.07), rgba(0,136,255,0.04));
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    align-items: flex-start; flex-wrap: wrap; gap: 20px;
+  }
+  .project-title-text {
+    font-size: 34px; font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+  .project-sub { color: var(--muted); font-size: 14px; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    padding: 6px 14px; border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .b-green { background: rgba(0,255,136,0.1); color: var(--accent); border: 1px solid rgba(0,255,136,0.2); }
+  .b-blue  { background: rgba(0,136,255,0.1); color: var(--accent2); border: 1px solid rgba(0,136,255,0.2); }
+  .b-orng  { background: rgba(255,107,53,0.1); color: var(--accent3); border: 1px solid rgba(255,107,53,0.2); }
+
+  .project-body { padding: 44px; }
+
+  /* Pipeline */
+  .pipeline-box {
+    background: #0c0c13;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 28px 0;
+    overflow-x: auto;
+  }
+  .pipe-title {
+    font-family: 'Courier New', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .pipe-steps {
+    display: flex; align-items: center; gap: 0;
+    min-width: 660px;
+  }
+  .pipe-step { flex: 1; }
+  .pipe-box {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    padding: 16px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px; text-align: center;
+    transition: all 0.25s;
+  }
+  .pipe-box:hover {
+    border-color: var(--accent);
+    background: rgba(0,255,136,0.05);
+    transform: translateY(-4px);
+  }
+  .pipe-icon { font-size: 22px; }
+  .pipe-name {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: var(--accent);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .pipe-lbl { font-size: 11px; color: var(--muted); line-height: 1.3; }
+  .pipe-arrow { color: var(--muted); font-size: 16px; padding: 0 6px; flex-shrink: 0; }
+
+  /* Features */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px; margin-top: 28px;
+  }
+  .feat {
+    padding: 22px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px; transition: all 0.2s;
+  }
+  .feat:hover { border-color: rgba(0,255,136,0.18); }
+  .feat-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-bottom: 12px; }
+  .feat-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .feat-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* Tech tags */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .tag {
+    padding: 7px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 1px; transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CONTACT */
+  .contact-bg { background: var(--surface); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+  .c-link {
+    display: flex; align-items: center; gap: 16px;
+    padding: 18px 22px;
+    background: var(--bg);
+    border: 1px solid var(--border); border-radius: 3px;
+    text-decoration: none; color: var(--text);
+    transition: all 0.2s;
+  }
+  .c-link:hover { border-color: var(--accent); transform: translateX(6px); }
+  .c-icon { font-size: 20px; }
+  .c-lbl {
+    font-family: 'Courier New', monospace;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 2px; text-transform: uppercase;
+    display: block; margin-bottom: 3px;
+  }
+  .c-val { font-size: 14px; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    padding: 28px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .f-text {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 1px;
+  }
+  .f-accent { color: var(--accent); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: all 0.6s ease; }
+  .reveal.show { opacity: 1; transform: translateY(0); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    section { padding: 60px 20px; }
+    .stats { padding: 28px 20px; grid-template-columns: repeat(2,1fr); gap: 24px; }
+    .stat { border-right: none; padding: 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+    .project-head { padding: 24px; }
+    .project-body { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ROKKAM RAVI</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#project">Project</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="dot"></span> Open to Opportunities</div>
+    <div class="hero-name">
+      <span class="name-white">Rokkam</span>
+      <span class="name-green">Ravi</span>
+    </div>
+    <div class="hero-role">⚙ DevOps Engineer · Piersoft Technologies</div>
+    <p class="hero-desc">
+      3+ years building and automating production-grade infrastructure.
+      Specializing in CI/CD pipelines, Kubernetes orchestration, and
+      GitOps workflows on on-premise infrastructure.
+    </p>
+    <div class="hero-btns">
+      <a href="#project" class="btn-g">View Project ↓</a>
+      <a href="https://www.linkedin.com/in/ravi-rokkam-aa0b9a1b7" target="_blank" class="btn-o">LinkedIn ↗</a>
+      <a href="https://github.com/Rokkamravi9676" target="_blank" class="btn-o">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">3+</div>
+    <div class="stat-lbl">Years Experience</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">8+</div>
+    <div class="stat-lbl">Technologies</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-lbl">Automated Deploys</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0</div>
+    <div class="stat-lbl">Downtime Deploys</div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section class="skills-bg" id="skills">
+  <span class="sec-tag">// 01 — expertise</span>
+  <h2>Technical Skills</h2>
+  <p class="sec-sub">Core DevOps technologies I use to build, automate, and scale production systems.</p>
+  <div class="divider"></div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <span class="skill-icon">🐳</span>
+      <div class="skill-name">Docker</div>
+      <div class="skill-desc">Multi-stage builds, image optimization and private registry management with Harbor Hub.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">☸️</span>
+      <div class="skill-name">Kubernetes</div>
+      <div class="skill-desc">Deployments, Services, Ingress, ConfigMaps, HPA, PDB, rolling updates and namespaces.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🔧</span>
+      <div class="skill-name">Jenkins CI/CD</div>
+      <div class="skill-desc">Declarative pipelines, multi-stage builds, webhook triggers and GitOps integration.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🔄</span>
+      <div class="skill-name">ArgoCD / GitOps</div>
+      <div class="skill-desc">GitOps workflows, automated sync, health monitoring and progressive delivery on K8s.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">⚓</span>
+      <div class="skill-name">Harbor Registry</div>
+      <div class="skill-desc">Private container registry, robot accounts, image scanning and pull secret configuration.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🌐</span>
+      <div class="skill-name">Nginx</div>
+      <div class="skill-desc">Reverse proxy, SPA routing, gzip compression, security headers and health endpoints.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🦊</span>
+      <div class="skill-name">GitLab</div>
+      <div class="skill-desc">Repository management, webhook configuration, SSH auth and CI/CD integration.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:87%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <span class="skill-icon">🖥️</span>
+      <div class="skill-name">Linux / Proxmox</div>
+      <div class="skill-desc">On-premise VM management, server administration and Kubernetes cluster setup on Proxmox.</div>
+      <div class="skill-bar"><div class="skill-fill" style="width:83%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT -->
+<section id="project">
+  <span class="sec-tag">// 02 — featured project</span>
+  <h2>Payment Advice System</h2>
+  <p class="sec-sub">A full end-to-end DevOps implementation — from containerization to automated Kubernetes deployment using GitOps.</p>
+  <div class="divider"></div>
+
+  <div class="project-card reveal">
+    <div class="project-head">
+      <div>
+        <div class="project-title-text">Payment Advice System</div>
+        <div class="project-sub">React + TypeScript · Docker · Kubernetes · Jenkins · ArgoCD</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-green">Live on K8s</span>
+        <span class="badge b-blue">GitOps</span>
+        <span class="badge b-orng">Zero Downtime</span>
+      </div>
+    </div>
+
+    <div class="project-body">
+
+      <!-- Pipeline -->
+      <div class="pipeline-box">
+        <div class="pipe-title">// CI/CD Pipeline — automated end to end</div>
+        <div class="pipe-steps">
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">🦊</span>
+              <span class="pipe-name">GitLab</span>
+              <span class="pipe-lbl">Source Repo<br/>git push</span>
+            </div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">🔧</span>
+              <span class="pipe-name">Jenkins</span>
+              <span class="pipe-lbl">Pipeline<br/>Trigger</span>
+            </div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">🐳</span>
+              <span class="pipe-name">Docker</span>
+              <span class="pipe-lbl">Multi-stage<br/>Build</span>
+            </div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">⚓</span>
+              <span class="pipe-name">Harbor</span>
+              <span class="pipe-lbl">Image<br/>Registry</span>
+            </div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">🔄</span>
+              <span class="pipe-name">ArgoCD</span>
+              <span class="pipe-lbl">GitOps<br/>Auto Sync</span>
+            </div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-box">
+              <span class="pipe-icon">☸️</span>
+              <span class="pipe-name">Kubernetes</span>
+              <span class="pipe-lbl">Rolling<br/>Deploy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px;font-weight:700;margin-bottom:10px;">What I Built</h3>
+      <p style="color:var(--muted);font-size:15px;line-height:1.75;margin-bottom:8px;">
+        Designed and implemented a complete DevOps pipeline for a React + TypeScript financial web application
+        running on an on-premise Kubernetes cluster hosted on Proxmox VMs. The entire flow — from code commit
+        to live deployment — is fully automated with zero manual steps and zero downtime.
+      </p>
+
+      <div class="features">
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">Multi-Stage Docker Build</div>
+          <div class="feat-desc">Node.js builder compiles React app, Nginx runner serves static assets — lean final image.</div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">Jenkins Declarative Pipeline</div>
+          <div class="feat-desc">4 stages: Clone → Build & Push to Harbor → GitOps update → ArgoCD sync. Fully automated.</div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">Harbor Private Registry</div>
+          <div class="feat-desc">Secure image storage with robot account auth, K8s pull secrets and versioned image tags.</div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">GitOps with ArgoCD</div>
+          <div class="feat-desc">K8s manifests in Git. ArgoCD auto-syncs on change — full audit trail of every deployment.</div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">Zero Downtime Deployments</div>
+          <div class="feat-desc">Rolling update with maxUnavailable: 0 — new pod healthy before old pod terminates.</div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-dot"></div>
+          <div class="feat-title">Nginx Ingress + NodePort</div>
+          <div class="feat-desc">Nginx Ingress routes external traffic. NodePort exposes app across office Proxmox network.</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:16px;font-weight:700;margin-top:36px;margin-bottom:12px;">Tech Stack</h3>
+      <div class="tags">
+        <span class="tag">React 19</span><span class="tag">TypeScript</span>
+        <span class="tag">Vite</span><span class="tag">Docker</span>
+        <span class="tag">Nginx</span><span class="tag">Kubernetes</span>
+        <span class="tag">Jenkins</span><span class="tag">ArgoCD</span>
+        <span class="tag">Harbor Registry</span><span class="tag">GitLab</span>
+        <span class="tag">Proxmox</span><span class="tag">Linux Ubuntu</span>
+      </div>
+
+      <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="https://github.com/Rokkamravi9676" target="_blank" class="btn-g">View GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-bg" id="contact">
+  <span class="sec-tag">// 03 — contact</span>
+  <div class="contact-grid">
+    <div>
+      <h2>Let's Connect</h2>
+      <p class="sec-sub" style="margin-bottom:0;">
+        Open to DevOps Engineer roles, infrastructure projects and collaboration opportunities.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:rokkamravi1999@gmail.com" class="c-link">
+        <span class="c-icon">✉️</span>
+        <div><span class="c-lbl">Email</span><span class="c-val">rokkamravi1999@gmail.com</span></div>
+      </a>
+      <a href="https://www.linkedin.com/in/ravi-rokkam-aa0b9a1b7" target="_blank" class="c-link">
+        <span class="c-icon">💼</span>
+        <div><span class="c-lbl">LinkedIn</span><span class="c-val">ravi-rokkam-aa0b9a1b7</span></div>
+      </a>
+      <a href="https://github.com/Rokkamravi9676" target="_blank" class="c-link">
+        <span class="c-icon">🐙</span>
+        <div><span class="c-lbl">GitHub</span><span class="c-val">Rokkamravi9676</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-text">© 2026 <span class="f-accent">Rokkam Ravi</span> — DevOps Engineer</div>
+  <div class="f-text">Piersoft Technologies · Hyderabad, India</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('show'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
